@@ -1,0 +1,22 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5517/task-manager
+    password: password
+    username: username
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  jwt-config:
+    jwt-secret: secret
+    jwt-expires: 2
