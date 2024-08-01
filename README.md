@@ -28,7 +28,7 @@ This is a Task Manager application built with Spring Boot. It allows users to ma
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/task-manager.git
+   git clone https://github.com/LIBERTY-D/Task-Manager-Back-End.git
    cd task-manager
 2. **Setup Database**
     Update the application.yml file with your database configurations:
