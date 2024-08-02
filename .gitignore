@@ -39,4 +39,4 @@ build/
 !application-dev.yml
 
 # env
-*.env
+.env
