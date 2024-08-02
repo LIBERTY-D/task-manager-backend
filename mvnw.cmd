@@ -46,7 +46,7 @@
 : end batch / begin powershell #>
 
 $ErrorActionPreference = "Stop"
-if ($env:MVNW_VERBOSE -eq "true") {
+if ($jwtConfig:MVNW_VERBOSE -eq "true") {
   $VerbosePreference = "Continue"
 }
 
@@ -72,15 +72,15 @@ switch -wildcard -casesensitive ( $($distributionUrl -replace '^.*/','') ) {
 
 # apply MVNW_REPOURL and calculate MAVEN_HOME
 # maven home pattern: ~/.m2/wrapper/dists/{apache-maven-<version>,maven-mvnd-<version>-<platform>}/<hash>
-if ($env:MVNW_REPOURL) {
+if ($jwtConfig:MVNW_REPOURL) {
   $MVNW_REPO_PATTERN = if ($USE_MVND) { "/org/apache/maven/" } else { "/maven/mvnd/" }
-  $distributionUrl = "$env:MVNW_REPOURL$MVNW_REPO_PATTERN$($distributionUrl -replace '^.*'+$MVNW_REPO_PATTERN,'')"
+  $distributionUrl = "$jwtConfig:MVNW_REPOURL$MVNW_REPO_PATTERN$($distributionUrl -replace '^.*'+$MVNW_REPO_PATTERN,'')"
 }
 $distributionUrlName = $distributionUrl -replace '^.*/',''
 $distributionUrlNameMain = $distributionUrlName -replace '\.[^.]*$','' -replace '-bin$',''
 $MAVEN_HOME_PARENT = "$HOME/.m2/wrapper/dists/$distributionUrlNameMain"
-if ($env:MAVEN_USER_HOME) {
-  $MAVEN_HOME_PARENT = "$env:MAVEN_USER_HOME/wrapper/dists/$distributionUrlNameMain"
+if ($jwtConfig:MAVEN_USER_HOME) {
+  $MAVEN_HOME_PARENT = "$jwtConfig:MAVEN_USER_HOME/wrapper/dists/$distributionUrlNameMain"
 }
 $MAVEN_HOME_NAME = ([System.Security.Cryptography.MD5]::Create().ComputeHash([byte[]][char[]]$distributionUrl) | ForEach-Object {$_.ToString("x2")}) -join ''
 $MAVEN_HOME = "$MAVEN_HOME_PARENT/$MAVEN_HOME_NAME"
@@ -114,8 +114,8 @@ Write-Verbose "Downloading from: $distributionUrl"
 Write-Verbose "Downloading to: $TMP_DOWNLOAD_DIR/$distributionUrlName"
 
 $webclient = New-Object System.Net.WebClient
-if ($env:MVNW_USERNAME -and $env:MVNW_PASSWORD) {
-  $webclient.Credentials = New-Object System.Net.NetworkCredential($env:MVNW_USERNAME, $env:MVNW_PASSWORD)
+if ($jwtConfig:MVNW_USERNAME -and $jwtConfig:MVNW_PASSWORD) {
+  $webclient.Credentials = New-Object System.Net.NetworkCredential($jwtConfig:MVNW_USERNAME, $jwtConfig:MVNW_PASSWORD)
 }
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $webclient.DownloadFile($distributionUrl, "$TMP_DOWNLOAD_DIR/$distributionUrlName") | Out-Null

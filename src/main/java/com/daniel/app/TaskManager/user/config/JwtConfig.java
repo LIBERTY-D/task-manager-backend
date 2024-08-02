@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.jwt-config")
-public class Env {
+public class JwtConfig {
 
     private  String jwt_secret;
     private  long jwt_expires;
@@ -15,7 +15,7 @@ public class Env {
         return jwt_expires;
     }
 
-    public Env setJwt_expires(long jwt_expires) {
+    public JwtConfig setJwt_expires(long jwt_expires) {
         this.jwt_expires = jwt_expires;
         return this;
     }
@@ -24,7 +24,7 @@ public class Env {
         return jwt_secret;
     }
 
-    public Env setJwt_secret(String jwt_secret) {
+    public JwtConfig setJwt_secret(String jwt_secret) {
         this.jwt_secret = jwt_secret;
         return this;
     }

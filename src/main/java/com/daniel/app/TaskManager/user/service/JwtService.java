@@ -1,7 +1,7 @@
 package com.daniel.app.TaskManager.user.service;
 
 
-import com.daniel.app.TaskManager.user.config.Env;
+import com.daniel.app.TaskManager.user.config.JwtConfig;
 import com.daniel.app.TaskManager.user.model.UserModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -17,10 +17,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final Env env;
+    private final JwtConfig jwtConfig;
 
-    public JwtService(Env env) {
-        this.env = env;
+    public JwtService(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
     }
 
     public  String getUserName(String token) {
@@ -56,7 +56,8 @@ public class JwtService {
     // generate token and return it
     public  String generateToken(UserModel user){
         Date issue = new Date(System.currentTimeMillis());
-        Date exp =  new Date(System.currentTimeMillis()+ env.getJwt_expires());
+        Date exp =
+                new Date(System.currentTimeMillis()+ jwtConfig.getJwt_expires());
 
         return Jwts.builder().subject(user.getUsername()).
                 issuedAt(issue).expiration(exp).
@@ -64,7 +65,7 @@ public class JwtService {
     }
     // getSigningKey
     private SecretKey getSigningKey() {
-        byte [] keyBytes = Decoders.BASE64URL.decode(env.getJwt_secret());
+        byte [] keyBytes = Decoders.BASE64URL.decode(jwtConfig.getJwt_secret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
